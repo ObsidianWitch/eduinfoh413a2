@@ -70,6 +70,26 @@ add_executable(vnd
     src/rules/Initialization/RandomInitialization.hpp
 )
 
+add_executable(tabu
+    src/TabuSearch/main_Tabu.cpp
+    src/Instance.cpp
+    src/Instance.hpp
+    src/Permutation.cpp
+    src/Permutation.hpp
+    src/TabuSearch/TabuSearch.cpp
+    src/TabuSearch/TabuSearch.hpp
+    src/rules/Neighbourhood/InsertNeighbourhood.cpp
+    src/rules/Neighbourhood/InsertNeighbourhood.hpp
+    src/rules/Neighbourhood/Neighbourhood.cpp
+    src/rules/Neighbourhood/Neighbourhood.hpp
+    src/rules/Pivoting/Improvement.hpp
+    src/rules/Pivoting/BestImprovement.cpp
+    src/rules/Pivoting/BestImprovement.hpp
+    src/rules/Initialization/Initialization.hpp
+    src/rules/Initialization/CWInitialization.cpp
+    src/rules/Initialization/CWInitialization.hpp
+)
+
 add_executable(test_load_instance
     src/tests/load_instance.cpp
     src/Instance.cpp
