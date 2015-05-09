@@ -20,7 +20,6 @@ void TabuSearch::run() {
               << "instance score: " << instance_.evaluate(p) << std::endl
               << "seed: " << instance_.totalSum() << std::endl;
 
-    bool localOptimum = false;
     Permutation p1 = initialization_.generateInitialization();
     std::cout << "initial solution (score: " << instance_.evaluate(p1) << "): "
               << p1 << std::endl;
@@ -28,12 +27,12 @@ void TabuSearch::run() {
 
     auto start = high_resolution_clock::now();
     duration<double> timeElapsed(0);
-    while (!localOptimum && timeElapsed.count() < terminationCriterion) {
+    while (timeElapsed.count() < terminationCriterion) {
         Permutation p2 = improvement_.improve(p1, neighbourhood_);
+
         /* DEBUG std::cout << "p1.score:" << p1.score() << "\t" << "p2.score:"
             << p2.score()  << std::endl;*/
         
-        localOptimum = (p1 == p2);
         p1 = p2;
         
         timeElapsed = high_resolution_clock::now() - start;
