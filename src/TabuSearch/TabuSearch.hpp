@@ -9,10 +9,11 @@ class TabuSearch {
 public:
     /**
      * The termination criteria is the average computation time it takes to
-     * run a full VND multiplied by 100. For an instance of size 150 it
+     * run a full VND multiplied by 10. For an instance of size 150 it
      * gives us 293.959 s.
+     * FIXME multiplied by 100
      */
-    static const int TERMINATION_150_X100 = 294;
+    static const int TERMINATION_150_X10 = 29;
     
     /**
      * For an instance of size 250, the termination criterion is the average

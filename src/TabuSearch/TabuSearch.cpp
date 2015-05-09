@@ -23,6 +23,8 @@ void TabuSearch::run() {
     Permutation p1 = initialization_.generateInitialization();
     std::cout << "initial solution (score: " << instance_.evaluate(p1) << "): "
               << p1 << std::endl;
+              
+    Permutation bestP = p1;
 
 
     auto start = high_resolution_clock::now();
@@ -30,19 +32,23 @@ void TabuSearch::run() {
     while (timeElapsed.count() < terminationCriterion) {
         Permutation p2 = improvement_.improve(p1, neighbourhood_);
 
-        /* DEBUG std::cout << "p1.score:" << p1.score() << "\t" << "p2.score:"
-            << p2.score()  << std::endl;*/
+        std::cout << "p1.score:" << p1.score() << "\t" << "p2.score:"
+            << p2.score()  << std::endl;
         
+        if (p2.score() > p1.score()) {
+            bestP = p2;
+        }
         p1 = p2;
         
+
         timeElapsed = high_resolution_clock::now() - start;
     }
     std::cout << "Time elapsed: " << timeElapsed.count() << " s" << std::endl;
 
-    long int finalScore = p1.score();
-    long int correctScore = instance_.evaluate(p1);
+    long int finalScore = bestP.score();
+    long int correctScore = instance_.evaluate(bestP);
     std::cout << "final solution (score: " << finalScore << "): "
-              << p1 << std::endl
+              << bestP << std::endl
               << "best known score: " << instance_.bestScore() << std::endl;
     assert(finalScore == correctScore);
 }
@@ -56,7 +62,7 @@ void TabuSearch::run() {
  */
 int TabuSearch::getTerminationTime() {
     if (instance_.size() == 150) {
-        return TERMINATION_150_X100;
+        return TERMINATION_150_X10;
     }
     else if (instance_.size() == 250) {
         return TERMINATION_250_X10;

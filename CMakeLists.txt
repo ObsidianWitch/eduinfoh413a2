@@ -83,8 +83,8 @@ add_executable(tabu
     src/rules/Neighbourhood/Neighbourhood.cpp
     src/rules/Neighbourhood/Neighbourhood.hpp
     src/rules/Pivoting/Improvement.hpp
-    src/rules/Pivoting/BestInferiorImprovement.cpp
-    src/rules/Pivoting/BestInferiorImprovement.hpp
+    src/rules/Pivoting/TabuImprovement.cpp
+    src/rules/Pivoting/TabuImprovement.hpp
     src/rules/Initialization/Initialization.hpp
     src/rules/Initialization/CWInitialization.cpp
     src/rules/Initialization/CWInitialization.hpp

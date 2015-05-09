@@ -2,7 +2,7 @@
 #include <cstdlib>
 
 #include "rules/Initialization/CWInitialization.hpp"
-#include "rules/Pivoting/BestInferiorImprovement.hpp"
+#include "rules/Pivoting/TabuImprovement.hpp"
 #include "rules/Neighbourhood/InsertNeighbourhood.hpp"
 #include "TabuSearch.hpp"
 #include "Instance.hpp"
@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
     // Algorithm dependencies
     Instance instance(argv[1]);
     CWInitialization initialization(instance);
-    BestInferiorImprovement improvement(instance);
+    TabuImprovement improvement(instance);
     InsertNeighbourhood neighbourhood(instance.size());
     
     // Tabu Search
