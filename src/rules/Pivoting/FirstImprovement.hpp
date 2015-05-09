@@ -11,11 +11,7 @@
 class FirstImprovement : public Improvement {
 public:
     FirstImprovement(const Instance& instance);
-    
-    /**
-     * Finds the first Permutation in the Neighbourhood n which has
-     * a better score than the given Permutation p for the current instance.
-     */
+
     Permutation improve(Permutation& p, Neighbourhood& n);
 };
 
