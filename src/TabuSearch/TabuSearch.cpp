@@ -9,6 +9,22 @@ TabuSearch::TabuSearch(Instance& instance, Initialization& initialization,
     improvement_(improvement), neighbourhood_(neighbourhood)
 {}
 
+/**
+ * Runs the TabuSearch by using the rules given in the constructor.
+ *
+ * For the algorithm to work correctly, the Improvement rule should be the
+ * TabuImprovement rule. This rule iterate over the Neighbourhood and allows
+ * worsening results.
+ *
+ * Since worsening results are permitted, the best score is stored in a variable
+ * during the search.
+ *
+ * The algorithm stops when the termination criterion is met: a
+ * maximum computation time.
+ *
+ * @see rules/Pivoting/TabuImprovement
+ * @see getTerminationTime()
+ */
 void TabuSearch::run() {
     using namespace std::chrono;
     
@@ -26,7 +42,6 @@ void TabuSearch::run() {
               
     Permutation bestP = p1;
 
-
     auto start = high_resolution_clock::now();
     duration<double> timeElapsed(0);
     while (timeElapsed.count() < terminationCriterion) {
@@ -35,6 +50,7 @@ void TabuSearch::run() {
         std::cout << "p1.score:" << p1.score() << "\t" << "p2.score:"
             << p2.score()  << std::endl;
         
+        // store the best score found during the search
         if (p2.score() > p1.score()) {
             bestP = p2;
         }
@@ -54,7 +70,7 @@ void TabuSearch::run() {
 }
 
 /**
- * Get the termination time for the TabuSearch based on the instance size.
+ * Gets the termination time for the TabuSearch based on the instance size.
  * The termination time is based on the average computation time to run a full
  * VND.
  *

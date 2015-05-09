@@ -5,6 +5,11 @@
 #include "rules/Neighbourhood/Neighbourhood.hpp"
 #include "rules/Pivoting/Improvement.hpp"
 
+/**
+ * The Tabu Search idea is to permit worsening results during the search, while
+ * avoiding cycles by using a list of already visited results. This list is kept
+ * short in order to avoid increasing the computation time too much.
+ */
 class TabuSearch {
 public:
     /**
