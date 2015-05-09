@@ -7,6 +7,11 @@ TabuImprovement::TabuImprovement(const Instance& instance) :
     tabuQueue()
 {}
 
+/**
+ * Improves or worsens the result (compared to the given Permutation p) by
+ * selecting the best Permutation in the given Neighbourhood n. To avoid
+ * revisiting Permutations, the tabuQueue is used.
+ */
 Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
     if (p.score() == -1) {
         instance_.evaluate(p);
@@ -40,6 +45,11 @@ Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
     return bestP;
 }
 
+/**
+ * Adds the given Permutation p to the tabuQueue. If the queue
+ * contains MAX_TABU_QUEUE elements, push the new element at the beginning
+ * of the queue, and pop the oldest one.
+ */
 void TabuImprovement::updateTabuQueue(Permutation& p) {
     tabuQueue.push_front(p);
     if (tabuQueue.size() > MAX_TABU_QUEUE) {
