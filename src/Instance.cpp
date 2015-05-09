@@ -26,6 +26,11 @@ void Instance::parseToMatrix() {
     }
 }
 
+/**
+ * Evaluates this Instance's score with the given Permutation. The computation
+ * time is approximately (n^2)/2, since all the upper right matrix is iterated
+ * over.
+ */
 long int Instance::evaluate(Permutation& p) const {
     long int score = 0;
     
@@ -40,6 +45,19 @@ long int Instance::evaluate(Permutation& p) const {
     return score;
 }
 
+/**
+ * With this Instance, evaluates the Permutation currently pointed by the
+ * Neighbourhood n.
+ * The Permutation in the Neighbourhood (p2) is evaluated by computing the
+ * delta between p2 and p, and summing p's score with the delta.
+ *
+ * delta = score of the differences between p2 and p
+ * p2_score = p_score + delta
+ *
+ * By only computing the delta to determine p2's score, the computation time
+ * is better than simply iterating over all the values in the upper right part
+ * of the matrix.
+ */
 long int Instance::evaluate(Permutation& p, const Neighbourhood& n) const {
     long int delta = n.delta(matrix_, p);
         
