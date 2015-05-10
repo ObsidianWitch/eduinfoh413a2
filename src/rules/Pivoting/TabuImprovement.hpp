@@ -40,7 +40,11 @@ private:
      * @see updateElite()
      */
     unsigned maxTabuQueue_;
-
+    
+    Permutation stepTabuSearch(Permutation& p, Neighbourhood& n);
+    bool checkRepetitions(Permutation& p, Permutation& newP);
+    Permutation escape(Permutation& p);
+    
     void updateElite(int currentScore);
     void updateTabuQueue(Permutation& p);
 };

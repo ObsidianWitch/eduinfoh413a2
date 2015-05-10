@@ -16,10 +16,24 @@ TabuImprovement::TabuImprovement(const Instance& instance) :
  * revisiting Permutations, the tabuQueue is used.
  */
 Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
+    Permutation newP = stepTabuSearch(p, n);
+    
+    if (checkRepetitions(p, newP)) {
+        newP = escape(p);
+    }
+
+    return newP;
+}
+
+/**
+ * Retrieves the best non-tabu Permutation in the given Neighbourhood n.
+ * After that, insert the new Permutation in the Tabu Queue.
+ */
+Permutation TabuImprovement::stepTabuSearch(Permutation& p, Neighbourhood& n) {
     if (p.score() == -1) {
         instance_.evaluate(p);
     }
-
+    
     // create base permutation with score -1
     Permutation bestP(instance_.size());
 
@@ -42,11 +56,26 @@ Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
 
         n.next();
     }
-
-    updateElite(bestP.score());
+    
     updateTabuQueue(bestP);
-
+    
     return bestP;
+}
+
+/**
+ * TODO
+ */
+bool TabuImprovement::checkRepetitions(Permutation& p, Permutation& newP) {
+    // TODO
+    return false; // FIXME temp
+}
+
+/**
+ * TODO
+ */
+Permutation TabuImprovement::escape(Permutation& p) {
+    // TODO
+    return p; // FIXME temp
 }
 
 /**
