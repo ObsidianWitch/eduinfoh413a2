@@ -40,6 +40,8 @@ while (!termination_criterion) {
 }
 ~~~
 
+dynamic tabu search: p.482
+
 ## Dynasearch
 
 <!-- TODO -->

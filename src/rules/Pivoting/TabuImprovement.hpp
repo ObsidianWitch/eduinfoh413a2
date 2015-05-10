@@ -2,19 +2,50 @@
 #define TABU_IMPROVEMENT
 
 #include <deque>
+#include <unordered_map>
+#include <unordered_set>
 #include "Improvement.hpp"
 
 /**
  * The TabuImprovement class selects the best scoring Permutation in the given
  * Neighbourhood. A Tabu list is kept to avoid selecting results already visited
- * recently. This list can keep at most MAX_TABU_QUEUE elements. The higher this
- * value is, the more we can avoid cycles, and the more we can find satisfying
- * results. However, the search is slower for larger lists.
+ * recently. The maximum number of elements the tabu list can contain is updated
+ * during the search and is called the tabu tenure.
  */
 class TabuImprovement : public Improvement {
 public:
-    static const unsigned MAX_TABU_QUEUE_INIT = 8; // FIXME
-    static const unsigned MAX_STEPS_NO_ELITE = 8; // FIXME
+    /**
+     * Value by which the tabu tenure should be increased to avoid revisiting
+     * candidate solutions.
+     */
+    static const unsigned TT_INC = 1; // FIXME
+    
+    /**
+     * Value by which the tabu tenure should be decreased when it has not
+     * changed for a sufficient number of iterations
+     * (TT_ITERATIONS_WO_MODIFICATION).
+     */
+    static const unsigned TT_DEC = 1; // FIXME
+    
+    /**
+     * Number of iterations during which the tabu tenure has not changed
+     * considered sufficient to decrease it.
+     */
+    static const unsigned TT_ITERATIONS_WO_MODIFICATION = 5; // FIXME
+    
+    /**
+     * Maximum occurences number a candidate solutions must attain to be
+     * considered frequently encountered;
+     */
+    static const unsigned MAX_OCCURENCES_FREQUENTLY_ENCOUNTERED = 3; // FIXME
+    
+    /**
+     * Maximum number of candidate solutions frequently encountered. The escape
+     * mechanism is triggered if this number is exceeded.
+     *
+     * @see escape()
+     */
+    static const unsigned MAX_CANDIDATE_FREQUENTLY_ENCOUNTERED = 3;
     
     TabuImprovement(const Instance& instance);
     
@@ -24,29 +55,38 @@ private:
     std::deque<Permutation> tabuQueue_;
     
     /**
-     * Best score found so far by the Tabu Search.
-     */
-    int eliteScore_;
-    
-    /**
-     * Number of search steps during which no elite solution was found.
-     */
-    unsigned stepsNoElite_;
-    
-    /**
      * Maximum number of elements the tabu queue can contain. Updated during
      * the search.
      *
-     * @see updateElite()
+     * @see checkRepetitions()
      */
-    unsigned maxTabuQueue_;
+    unsigned tabuTenure_;
+    
+    /**
+     * Keeps the number of encounter of a Permutation in a hash table.
+     * The permutation is identified by its score (key). This is an
+     * approximation, but it costs less than checking each time all the
+     * elements in the Permutation.
+     */
+    std::unordered_map<int, unsigned> permutationOccurences_;
+    
+    /**
+     * Keeps the frequently encountered Permutations. Permutations are
+     * identified by their score.
+     */
+    std::unordered_set<int> frequentlyEncountered_;
+    
+    /**
+     * Number of iterations during which no modification has been made to
+     * the tabu tenure.
+     */
+    unsigned ttIterationsNoModif;
     
     Permutation stepTabuSearch(Permutation& p, Neighbourhood& n);
     bool checkRepetitions(Permutation& p, Permutation& newP);
     Permutation escape(Permutation& p);
     
-    void updateElite(int currentScore);
     void updateTabuQueue(Permutation& p);
 };
 
-#endif // BEST_INFERIOR_IMPROVEMENT
+#endif // TABU_IMPROVEMENT
