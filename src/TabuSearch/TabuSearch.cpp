@@ -50,8 +50,8 @@ void TabuSearch::run() {
         std::cout << "p1.score:" << p1.score() << "\t" << "p2.score:"
             << p2.score()  << std::endl;
         
-        // store the best score found during the search
-        if (p2.score() > p1.score()) {
+        // store the best permutation found during the search
+        if (p2.score() > bestP.score()) {
             bestP = p2;
         }
         p1 = p2;
