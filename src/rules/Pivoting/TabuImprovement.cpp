@@ -4,7 +4,10 @@
 
 TabuImprovement::TabuImprovement(const Instance& instance) :
     Improvement(instance),
-    tabuQueue()
+    tabuQueue_(),
+    eliteScore_(-1),
+    stepsNoElite_(0),
+    maxTabuQueue_(MAX_TABU_QUEUE_INIT)
 {}
 
 /**
@@ -29,8 +32,8 @@ Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
             newP.setScore(newScore);
 
             bool isNewPTabu = std::find(
-                tabuQueue.begin(), tabuQueue.end(), newP
-            ) != tabuQueue.end();
+                tabuQueue_.begin(), tabuQueue_.end(), newP
+            ) != tabuQueue_.end();
 
             if (!isNewPTabu) {
                 bestP = newP;
@@ -40,9 +43,51 @@ Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
         n.next();
     }
 
+    updateElite(bestP.score());
     updateTabuQueue(bestP);
 
     return bestP;
+}
+
+/**
+ * If a new elite solution has been found, divides by 2 the maximum size of
+ * the tabu queue and keep only the most recent part of the queue.
+ * Else, if no elite solution has been found for MAX_STEPS_NO_ELITE, multiply
+ * by 2 the tabu tenure.
+ *
+ * By decreasing the tabu tenure when an elite solution has been found helps
+ * widening the search area.
+ *
+ * Increasing the tabu tenure when no elite solution has been found for a long
+ * time helps avoiding cycles.
+ */
+void TabuImprovement::updateElite(int currentScore) {
+    if (eliteScore_ < currentScore) {
+        eliteScore_ = currentScore;
+        
+        if (maxTabuQueue_ > MAX_TABU_QUEUE_INIT) {
+            if (tabuQueue_.size() > maxTabuQueue_/2) {
+                auto middle = tabuQueue_.begin() + maxTabuQueue_/2;
+                tabuQueue_ = std::deque<Permutation>(tabuQueue_.begin(), middle); // TODO check if correct behaviour
+            }
+            maxTabuQueue_ /= 2;
+        }
+        
+        stepsNoElite_ = 0;
+
+        std::cout << "elite (" << tabuQueue_.size() << "/" << maxTabuQueue_
+                  << ") "; // FIXME DEBUG
+    }
+    else if (stepsNoElite_ == MAX_STEPS_NO_ELITE) {
+        maxTabuQueue_ *= 2;
+        stepsNoElite_ = 0;
+        
+        std::cout << "noElite (" << tabuQueue_.size() << "/" << maxTabuQueue_
+                  << ") "; // FIXME DEBUG
+    }
+    else {
+        stepsNoElite_++;
+    }
 }
 
 /**
@@ -51,8 +96,8 @@ Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
  * of the queue, and pop the oldest one.
  */
 void TabuImprovement::updateTabuQueue(Permutation& p) {
-    tabuQueue.push_front(p);
-    if (tabuQueue.size() > MAX_TABU_QUEUE) {
-        tabuQueue.pop_back();
+    tabuQueue_.push_front(p);
+    if (tabuQueue_.size() > maxTabuQueue_) {
+        tabuQueue_.pop_back();
     }
 }

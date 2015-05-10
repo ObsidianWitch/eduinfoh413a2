@@ -13,15 +13,35 @@
  */
 class TabuImprovement : public Improvement {
 public:
-    static const unsigned MAX_TABU_QUEUE = 200; // FIXME
+    static const unsigned MAX_TABU_QUEUE_INIT = 8; // FIXME
+    static const unsigned MAX_STEPS_NO_ELITE = 8; // FIXME
     
     TabuImprovement(const Instance& instance);
     
     Permutation improve(Permutation& p, Neighbourhood& n);
 
 private:
-    std::deque<Permutation> tabuQueue;
+    std::deque<Permutation> tabuQueue_;
+    
+    /**
+     * Best score found so far by the Tabu Search.
+     */
+    int eliteScore_;
+    
+    /**
+     * Number of search steps during which no elite solution was found.
+     */
+    unsigned stepsNoElite_;
+    
+    /**
+     * Maximum number of elements the tabu queue can contain. Updated during
+     * the search.
+     *
+     * @see updateElite()
+     */
+    unsigned maxTabuQueue_;
 
+    void updateElite(int currentScore);
     void updateTabuQueue(Permutation& p);
 };
 
