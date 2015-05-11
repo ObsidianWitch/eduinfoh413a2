@@ -92,7 +92,7 @@ private:
     std::mt19937 gen_;
 
     Permutation stepTabuSearch(Permutation& p, Neighbourhood& n);
-    bool checkRepetitions(Permutation& p, Permutation& newP);
+    bool checkRepetitions(Permutation& newP);
     Permutation escape(Permutation& p);
     
     void updateTabuQueue(Permutation& p);

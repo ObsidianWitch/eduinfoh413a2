@@ -21,7 +21,7 @@ TabuImprovement::TabuImprovement(const Instance& instance) :
 Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
     Permutation newP = stepTabuSearch(p, n);
 
-    if (checkRepetitions(p, newP)) {
+    if (checkRepetitions(newP)) {
         std::cout << "escape "; // FIXME DEBUG
         newP = escape(p);
     }
@@ -84,7 +84,7 @@ Permutation TabuImprovement::stepTabuSearch(Permutation& p, Neighbourhood& n) {
  *
  * @return Returns true if the search seems to be stuck, false otherwise.
  */
-bool TabuImprovement::checkRepetitions(Permutation& p, Permutation& newP) {
+bool TabuImprovement::checkRepetitions(Permutation& newP) {
     auto searchNewP = permutationOccurences_.find(newP.score());
     if (searchNewP != permutationOccurences_.end()) {
         tabuTenure_ += TT_INC;
