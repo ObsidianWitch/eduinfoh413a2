@@ -34,13 +34,13 @@ public:
      * Number of iterations during which the tabu tenure has not changed
      * considered sufficient to decrease it.
      */
-    static const unsigned TT_ITERATIONS_WO_MODIFICATION = 5; // FIXME
+    static const unsigned TT_ITERATIONS_WO_MODIFICATION = 5;
     
     /**
      * Maximum occurrences number a candidate solutions must attain to be
      * considered frequently encountered;
      */
-    static const unsigned MAX_OCCURRENCES_FREQUENTLY_ENCOUNTERED = 3; // FIXME
+    static const unsigned MAX_OCCURRENCES_FREQUENTLY_ENCOUNTERED = 3;
     
     /**
      * Maximum number of candidate solutions frequently encountered. The escape
@@ -50,6 +50,14 @@ public:
      */
     static const unsigned MAX_CANDIDATE_FREQUENTLY_ENCOUNTERED = 3;
     
+    /**
+     * Constant used in the escape mechanism to determine the number of
+     * successive random changes will be applied to the current Permutation.
+     *
+     * @see escape()
+     */
+    static const unsigned ALPHA_ESCAPE = 5;
+
     TabuImprovement(const Instance& instance);
     
     Permutation improve(Permutation& p, Neighbourhood& n);

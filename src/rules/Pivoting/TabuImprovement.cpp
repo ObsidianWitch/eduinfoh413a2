@@ -146,12 +146,10 @@ Permutation TabuImprovement::escape(Permutation& p) {
     // Escape from the current search region
     Permutation newP = p;
 
-    unsigned temp = 5; // FIXME moving average
-
-    std::uniform_real_distribution<> disRandSteps(0.5, 1);
+    std::uniform_real_distribution<> disRandSteps(1, 5);
     std::uniform_int_distribution<> disIndex(0, instance_.size() - 1);
 
-    unsigned nRandomSteps = 1 + disRandSteps(gen_) * temp;
+    unsigned nRandomSteps = 1 + disRandSteps(gen_) * ALPHA_ESCAPE;
     for (unsigned i = 0 ; i < nRandomSteps ; i++) {
         unsigned j = disIndex(gen_);
         unsigned k = disIndex(gen_);
