@@ -16,18 +16,19 @@ TabuImprovement::TabuImprovement(const Instance& instance) :
  * Improves or worsens the result (compared to the given Permutation p) by
  * selecting the best Permutation in the given Neighbourhood n. To avoid
  * revisiting Permutations, the tabuQueue is used.
- * FIXME update doc
+ * If the search seems to be stuck in a cycle, the escape mechanism is
+ * triggered.
  */
 Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
     Permutation newP = stepTabuSearch(p, n);
 
     if (checkRepetitions(newP)) {
-        std::cout << "escape "; // FIXME DEBUG
+        // DEBUG std::cout << "escape ";
         newP = escape(p);
     }
 
-    std::cout << "(" << tabuTenure_ << "," << ttIterationsNoModif
-              << ") "; // FIXME DEBUG
+    // DEBUG std::cout << "(" << tabuTenure_ << "," << ttIterationsNoModif
+    //          << ") ";
 
     return newP;
 }
@@ -154,7 +155,7 @@ Permutation TabuImprovement::escape(Permutation& p) {
         unsigned j = disIndex(gen_);
         unsigned k = disIndex(gen_);
 
-        std::cout << " <->(" << j << "," << k <<") "; // FIXME DEBUG
+        // DEBUG std::cout << " <->(" << j << "," << k <<") ";
 
         newP.permute(j, k);
         instance_.evaluate(newP);
