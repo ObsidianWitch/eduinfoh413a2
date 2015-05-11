@@ -17,15 +17,17 @@ public:
     /**
      * Value by which the tabu tenure should be increased to avoid revisiting
      * candidate solutions.
+     * (minor influence)
      */
-    static const unsigned TT_INC = 1; // FIXME
+    static const unsigned TT_INC = 1;
     
     /**
      * Value by which the tabu tenure should be decreased when it has not
      * changed for a sufficient number of iterations
      * (TT_ITERATIONS_WO_MODIFICATION).
+     * (minor influence)
      */
-    static const unsigned TT_DEC = 1; // FIXME
+    static const unsigned TT_DEC = 1;
     
     /**
      * Number of iterations during which the tabu tenure has not changed

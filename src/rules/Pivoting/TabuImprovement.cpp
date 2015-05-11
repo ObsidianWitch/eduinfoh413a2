@@ -21,6 +21,7 @@ Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
     Permutation newP = stepTabuSearch(p, n);
 
     if (checkRepetitions(p, newP)) {
+        std::cout << "escape "; // FIXME DEBUG
         newP = escape(p);
     }
 
