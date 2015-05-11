@@ -8,7 +8,8 @@ TabuImprovement::TabuImprovement(const Instance& instance) :
     tabuTenure_(1),
     permutationOccurences_(),
     frequentlyEncountered_(),
-    ttIterationsNoModif(0)
+    ttIterationsNoModif(0),
+    gen_(instance_.totalSum())
 {}
 
 /**
@@ -61,11 +62,6 @@ Permutation TabuImprovement::stepTabuSearch(Permutation& p, Neighbourhood& n) {
         }
 
         n.next();
-    }
-    
-    if (bestP.score() == -1) {
-        std::cout << "sokomadeda!" << std::endl;
-        exit(EXIT_FAILURE);
     }
 
     updateTabuQueue(bestP);
@@ -132,11 +128,43 @@ bool TabuImprovement::checkRepetitions(Permutation& p, Permutation& newP) {
 }
 
 /**
- * TODO
+ * Escape mechanism used to explore a new search zone.
+ * Resets all variables linked to the reactive tabu search to their initial
+ * values (e.g. tabu queue, tabu tenure).
+ * The escape is achieved by a random number of step applied to the current
+ * Permutation p. The steps applied are switches between 2 random values in the
+ * Permutation p.
  */
 Permutation TabuImprovement::escape(Permutation& p) {
-    // TODO
-    return p; // FIXME temp
+    // Resets all mechanisms linked to the Tabu Search
+    tabuTenure_ = 1;
+    ttIterationsNoModif = 0;
+    tabuQueue_.clear();
+    permutationOccurences_.clear();
+    frequentlyEncountered_.clear();
+
+    // Escape from the current search region
+    Permutation newP = p;
+
+    unsigned temp = 5; // FIXME moving average
+
+    std::uniform_real_distribution<> disRandSteps(0.5, 1);
+    std::uniform_int_distribution<> disIndex(0, instance_.size() - 1);
+
+    unsigned nRandomSteps = 1 + disRandSteps(gen_) * temp;
+    for (unsigned i = 0 ; i < nRandomSteps ; i++) {
+        unsigned j = disIndex(gen_);
+        unsigned k = disIndex(gen_);
+
+        std::cout << " <->(" << j << "," << k <<") "; // FIXME DEBUG
+
+        newP.permute(j, k);
+        instance_.evaluate(newP);
+        updateTabuQueue(newP);
+    }
+
+
+    return newP;
 }
 
 /**

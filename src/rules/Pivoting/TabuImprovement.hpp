@@ -4,6 +4,7 @@
 #include <deque>
 #include <unordered_map>
 #include <unordered_set>
+#include <random>
 #include "Improvement.hpp"
 
 /**
@@ -84,6 +85,12 @@ private:
      */
     unsigned ttIterationsNoModif;
     
+    /**
+     * Random number engine. Initialized with the instance's total sum in order
+     * to have the same results between runs for the same instance.
+     */
+    std::mt19937 gen_;
+
     Permutation stepTabuSearch(Permutation& p, Neighbourhood& n);
     bool checkRepetitions(Permutation& p, Permutation& newP);
     Permutation escape(Permutation& p);
