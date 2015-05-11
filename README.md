@@ -5,14 +5,28 @@
 Two Stochastic Local Search algorithms were implemented for the Linear Ordering
 Problem.
 
+* Tabu Search
+* ???
+
 ## Compilation
 
-<!-- % TODO -->
+~~~
+> mkdir out
+> cd out
+> cmake ..
+> make tabu
+~~~
 
 ## Run on one instance
 
-<!-- % TODO -->
+### Tabu Search
+
+~~~
+Usage:./tabu <instance_file>
+
+> ./tabu ../instances/N-be75tot_150
+~~~
 
 # Scripts
 
-<!-- % TODO -->
+<!-- TODO -->
