@@ -37,10 +37,10 @@ public:
     static const unsigned TT_ITERATIONS_WO_MODIFICATION = 5; // FIXME
     
     /**
-     * Maximum occurences number a candidate solutions must attain to be
+     * Maximum occurrences number a candidate solutions must attain to be
      * considered frequently encountered;
      */
-    static const unsigned MAX_OCCURENCES_FREQUENTLY_ENCOUNTERED = 3; // FIXME
+    static const unsigned MAX_OCCURRENCES_FREQUENTLY_ENCOUNTERED = 3; // FIXME
     
     /**
      * Maximum number of candidate solutions frequently encountered. The escape
@@ -71,7 +71,7 @@ private:
      * approximation, but it costs less than checking each time all the
      * elements in the Permutation.
      */
-    std::unordered_map<int, unsigned> permutationOccurences_;
+    std::unordered_map<int, unsigned> permutationOccurrences_;
     
     /**
      * Keeps the frequently encountered Permutations. Permutations are

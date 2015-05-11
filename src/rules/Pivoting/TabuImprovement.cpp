@@ -6,7 +6,7 @@ TabuImprovement::TabuImprovement(const Instance& instance) :
     Improvement(instance),
     tabuQueue_(),
     tabuTenure_(1),
-    permutationOccurences_(),
+    permutationOccurrences_(),
     frequentlyEncountered_(),
     ttIterationsNoModif(0),
     gen_(instance_.totalSum())
@@ -85,16 +85,16 @@ Permutation TabuImprovement::stepTabuSearch(Permutation& p, Neighbourhood& n) {
  * @return Returns true if the search seems to be stuck, false otherwise.
  */
 bool TabuImprovement::checkRepetitions(Permutation& newP) {
-    auto searchNewP = permutationOccurences_.find(newP.score());
-    if (searchNewP != permutationOccurences_.end()) {
+    auto searchNewP = permutationOccurrences_.find(newP.score());
+    if (searchNewP != permutationOccurrences_.end()) {
         tabuTenure_ += TT_INC;
         ttIterationsNoModif = 0;
 
-        // newP has been encountered again, increase the number of occurences
+        // newP has been encountered again, increase the number of occurrences
         // in the hash table.
         searchNewP->second++;
 
-        if (searchNewP->second > MAX_OCCURENCES_FREQUENTLY_ENCOUNTERED) {
+        if (searchNewP->second > MAX_OCCURRENCES_FREQUENTLY_ENCOUNTERED) {
             // Insert newP in the set of frequently encountered Permutations (if
             // it is not already in there).
             frequentlyEncountered_.insert(newP.score());
@@ -109,7 +109,7 @@ bool TabuImprovement::checkRepetitions(Permutation& newP) {
 
         // newP has been encountered for the first time, inserts it in the
         // hash table
-        permutationOccurences_.insert(
+        permutationOccurrences_.insert(
             std::make_pair(newP.score(), 1)
         );
     }
@@ -140,7 +140,7 @@ Permutation TabuImprovement::escape(Permutation& p) {
     tabuTenure_ = 1;
     ttIterationsNoModif = 0;
     tabuQueue_.clear();
-    permutationOccurences_.clear();
+    permutationOccurrences_.clear();
     frequentlyEncountered_.clear();
 
     // Escape from the current search region
