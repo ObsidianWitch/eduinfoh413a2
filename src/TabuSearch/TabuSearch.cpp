@@ -47,8 +47,8 @@ void TabuSearch::run() {
     while (timeElapsed.count() < terminationCriterion) {
         Permutation p2 = improvement_.improve(p1, neighbourhood_);
 
-        // DEBUG std::cout << "p1.score:" << p1.score() << "\t" << "p2.score:"
-        //    << p2.score()  << std::endl;
+        std::cout << "p1.score:" << p1.score() << "\t" << "p2.score:"
+                  << p2.score()  << std::endl; // FIXME DEBUG
         
         // store the best permutation found during the search
         if (p2.score() > bestP.score()) {

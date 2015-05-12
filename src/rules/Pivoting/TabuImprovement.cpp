@@ -9,7 +9,8 @@ TabuImprovement::TabuImprovement(const Instance& instance) :
     permutationOccurrences_(),
     frequentlyEncountered_(),
     ttIterationsNoModif(0),
-    gen_(instance_.totalSum())
+    gen_(instance_.totalSum()),
+    eliteP_(instance.size())
 {}
 
 /**
@@ -23,12 +24,12 @@ Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
     Permutation newP = stepTabuSearch(p, n);
 
     if (checkRepetitions(newP)) {
-        // DEBUG std::cout << "escape ";
+        std::cout << "escape "; // FIXME DEBUG
         newP = escape(p);
     }
 
-    // DEBUG std::cout << "(" << tabuTenure_ << "," << ttIterationsNoModif
-    //          << ") ";
+    std::cout << "(" << tabuTenure_ << "," << ttIterationsNoModif
+              << ") "; // FIXME DEBUG
 
     return newP;
 }
@@ -66,6 +67,7 @@ Permutation TabuImprovement::stepTabuSearch(Permutation& p, Neighbourhood& n) {
     }
 
     updateTabuQueue(bestP);
+    updateElite(bestP);
 
     return bestP;
 }
@@ -145,7 +147,6 @@ Permutation TabuImprovement::escape(Permutation& p) {
     frequentlyEncountered_.clear();
 
     // Escape from the current search region
-    // TODO test from best permutation and not current one
     Permutation newP = p;
 
     std::uniform_int_distribution<> disRandSteps(2, MAX_RANDOM_STEPS_ESCAPE);
@@ -156,7 +157,7 @@ Permutation TabuImprovement::escape(Permutation& p) {
         unsigned j = disIndex(gen_);
         unsigned k = disIndex(gen_);
 
-        // DEBUG std::cout << " <->(" << j << "," << k <<") ";
+        std::cout << " <->(" << j << "," << k <<") "; // FIXME DEBUG
 
         newP.permute(j, k);
         instance_.evaluate(newP);
@@ -176,5 +177,24 @@ void TabuImprovement::updateTabuQueue(Permutation& p) {
     tabuQueue_.push_front(p);
     while (tabuQueue_.size() > tabuTenure_) {
         tabuQueue_.pop_back();
+    }
+}
+
+/**
+ * Detect if the newly found Permutation is an elite Permutation. An elite
+ * Permutation has the best score among the solutions found by the Tabu Search
+ * thus far.
+ * If a new elite Permutation has been found, divides by 2 the tabu tenure in
+ * order to avoid restricting too much the search zone.
+ */
+void TabuImprovement::updateElite(Permutation& newP) {
+    if (newP.score() > eliteP_.score()) {
+        eliteP_ = newP;
+
+        if (tabuTenure_ > 1) {
+            tabuTenure_ /= 2;
+        }
+
+        std::cout << "elite "; // FIXME DEBUG
     }
 }

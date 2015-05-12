@@ -100,11 +100,17 @@ private:
      */
     std::mt19937 gen_;
 
+    /**
+     * Best Permutation found by the Tabu Search so far.
+     */
+    Permutation eliteP_;
+
     Permutation stepTabuSearch(Permutation& p, Neighbourhood& n);
     bool checkRepetitions(Permutation& newP);
     Permutation escape(Permutation& p);
     
     void updateTabuQueue(Permutation& p);
+    void updateElite(Permutation& newP);
 };
 
 #endif // TABU_IMPROVEMENT
