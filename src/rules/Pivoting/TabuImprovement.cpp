@@ -145,12 +145,13 @@ Permutation TabuImprovement::escape(Permutation& p) {
     frequentlyEncountered_.clear();
 
     // Escape from the current search region
+    // TODO test from best permutation and not current one
     Permutation newP = p;
 
-    std::uniform_real_distribution<> disRandSteps(1, 5);
+    std::uniform_int_distribution<> disRandSteps(2, MAX_RANDOM_STEPS_ESCAPE);
     std::uniform_int_distribution<> disIndex(0, instance_.size() - 1);
 
-    unsigned nRandomSteps = 1 + disRandSteps(gen_) * ALPHA_ESCAPE;
+    unsigned nRandomSteps = disRandSteps(gen_);
     for (unsigned i = 0 ; i < nRandomSteps ; i++) {
         unsigned j = disIndex(gen_);
         unsigned k = disIndex(gen_);

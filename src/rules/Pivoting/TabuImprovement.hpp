@@ -51,12 +51,13 @@ public:
     static const unsigned MAX_CANDIDATE_FREQUENTLY_ENCOUNTERED = 3;
     
     /**
-     * Constant used in the escape mechanism to determine the number of
-     * successive random changes will be applied to the current Permutation.
+     * Constant used in the escape mechanism to determine the maximum number of
+     * successive random changes which will be applied to the current
+     * Permutation.
      *
      * @see escape()
      */
-    static const unsigned ALPHA_ESCAPE = 5;
+    static const unsigned MAX_RANDOM_STEPS_ESCAPE = 10;
 
     TabuImprovement(const Instance& instance);
     
