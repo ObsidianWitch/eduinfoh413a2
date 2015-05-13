@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 project(A1)
 
 SET(CMAKE_CXX_COMPILER "g++")
-SET(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11 -O3")
+SET(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11 -O3 -DDEBUG")
 
 include_directories(src)
 
@@ -76,6 +76,8 @@ add_executable(tabu
     src/Instance.hpp
     src/Permutation.cpp
     src/Permutation.hpp
+    src/Log.hpp
+    src/Log.cpp
     src/TabuSearch/TabuSearch.cpp
     src/TabuSearch/TabuSearch.hpp
     src/rules/Neighbourhood/InsertNeighbourhood.cpp

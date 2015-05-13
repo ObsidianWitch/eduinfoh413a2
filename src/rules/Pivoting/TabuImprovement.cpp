@@ -1,6 +1,7 @@
 #include <algorithm>
 
 #include "TabuImprovement.hpp"
+#include "Log.hpp"
 
 TabuImprovement::TabuImprovement(const Instance& instance) :
     Improvement(instance),
@@ -24,12 +25,12 @@ Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
     Permutation newP = stepTabuSearch(p, n);
 
     if (checkRepetitions(newP)) {
-        std::cout << "escape "; // FIXME DEBUG
+        logOut << "escape ";
         newP = escape(p);
     }
 
-    std::cout << "(" << tabuTenure_ << "," << ttIterationsNoModif
-              << ") "; // FIXME DEBUG
+    logOut << "(" << tabuTenure_ << "," << ttIterationsNoModif
+        << ") ";
 
     return newP;
 }
@@ -157,7 +158,7 @@ Permutation TabuImprovement::escape(Permutation& p) {
         unsigned j = disIndex(gen_);
         unsigned k = disIndex(gen_);
 
-        std::cout << " <->(" << j << "," << k <<") "; // FIXME DEBUG
+        logOut << " <->(" << j << "," << k <<") ";
 
         newP.permute(j, k);
         instance_.evaluate(newP);
@@ -195,6 +196,6 @@ void TabuImprovement::updateElite(Permutation& newP) {
             tabuTenure_ /= 2;
         }
 
-        std::cout << "elite "; // FIXME DEBUG
+        logOut << "elite ";
     }
 }
