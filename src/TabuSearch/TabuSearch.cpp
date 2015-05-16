@@ -14,8 +14,8 @@ TabuSearch::TabuSearch(Instance& instance, Initialization& initialization,
  * Runs the TabuSearch by using the rules given in the constructor.
  *
  * For the algorithm to work correctly, the Improvement rule should be the
- * TabuImprovement rule. This rule iterate over the Neighbourhood and allows
- * worsening results.
+ * TabuImprovement rule. Among other things, this rule iterate over the
+ * provided Neighbourhood and allows worsening results.
  *
  * Since worsening results are permitted, the best score is stored in a variable
  * during the search.

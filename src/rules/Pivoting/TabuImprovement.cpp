@@ -29,8 +29,7 @@ Permutation TabuImprovement::improve(Permutation& p, Neighbourhood& n) {
         newP = escape(p);
     }
 
-    logOut << "(" << tabuTenure_ << "," << ttIterationsNoModif
-        << ") ";
+    logOut << "(" << tabuTenure_ << "," << ttIterationsNoModif << ") ";
 
     return newP;
 }
@@ -78,9 +77,8 @@ Permutation TabuImprovement::stepTabuSearch(Permutation& p, Neighbourhood& n) {
  * zone.
  *
  * A short term solution is to increase the tabu tenure. However, increasing
- * too much the tabu tenure may also cause the tabu search to be stuck by
- * constraining the search zone. So, under some conditions, the tabu tenure
- * is occasionally decreased (see comments inside code).
+ * too much the tabu tenure may constrain the search zone. So, under some
+ * conditions, the tabu tenure is occasionally decreased.
  *
  * If the short term solution is not sufficient, then checkRepetitions returns
  * true to indicate the Tabu Search seems to be stuck. In that case, other
@@ -132,11 +130,10 @@ bool TabuImprovement::checkRepetitions(Permutation& newP) {
 }
 
 /**
- * Escape mechanism used to explore a new search zone.
+ * The escape mechanism is used to explore a new search zone.
  * Resets all variables linked to the reactive tabu search to their initial
  * values (e.g. tabu queue, tabu tenure).
  * The escape is achieved by a random number of step applied to the current
- * Permutation p. The steps applied are switches between 2 random values in the
  * Permutation p.
  */
 Permutation TabuImprovement::escape(Permutation& p) {
@@ -162,6 +159,9 @@ Permutation TabuImprovement::escape(Permutation& p) {
 
         newP.permute(j, k);
         instance_.evaluate(newP);
+        
+        // Add each Permutation leading to the new search zone in the tabuQueue_
+        // in order to avoid going back to the old search zone.
         updateTabuQueue(newP);
     }
 
@@ -170,7 +170,7 @@ Permutation TabuImprovement::escape(Permutation& p) {
 }
 
 /**
- * Adds the given Permutation p to the tabuQueue. If the queue
+ * Adds the given Permutation p to the tabuQueue_. If the queue
  * contains more than tabuTenure_ elements, pop enough old elements to
  * satisfy the tabu tenure.
  */

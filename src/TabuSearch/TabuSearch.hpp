@@ -7,14 +7,17 @@
 
 /**
  * The Tabu Search idea is to permit worsening results during the search, while
- * avoiding cycles by using a list of already visited results. This list is kept
- * short in order to avoid increasing the computation time too much.
+ * avoiding cycles by using a list of already visited results. This list has a
+ * dynamic size in order to adapt to the current situation of the search. Most
+ * of the Tabu Search mechanisms are handled by the TabuImprovement class.
+ *
+ * @see rules/Pivoting/TabuImprovement
  */
 class TabuSearch {
 public:
     /**
      * The termination criteria is the average computation time it takes to
-     * run a full VND multiplied by 10. For an instance of size 150 it
+     * run a full VND multiplied by 100. For an instance of size 150 it
      * gives us 293.959 s.
      * FIXME multiplied by 100
      */
