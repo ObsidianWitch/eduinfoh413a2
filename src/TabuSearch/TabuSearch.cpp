@@ -2,7 +2,7 @@
 #include <assert.h>
 
 #include "TabuSearch.hpp"
-#include "Log.hpp"
+#include "Debug.hpp"
 
 TabuSearch::TabuSearch(Instance& instance, Initialization& initialization,
     Improvement& improvement, Neighbourhood& neighbourhood) :
@@ -48,7 +48,7 @@ void TabuSearch::run() {
     while (timeElapsed.count() < terminationCriterion) {
         Permutation p2 = improvement_.improve(p1, neighbourhood_);
 
-        logOut << "p1.score:" << p1.score() << "\t" << "p2.score:"
+        debug << "p1.score:" << p1.score() << "\t" << "p2.score:"
                << p2.score()  << std::endl;
         
         // store the best permutation found during the search

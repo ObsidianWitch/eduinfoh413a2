@@ -76,8 +76,8 @@ add_executable(tabu
     src/Instance.hpp
     src/Permutation.cpp
     src/Permutation.hpp
-    src/Log.hpp
-    src/Log.cpp
+    src/Debug.hpp
+    src/Debug.cpp
     src/TabuSearch/TabuSearch.cpp
     src/TabuSearch/TabuSearch.hpp
     src/rules/Neighbourhood/InsertNeighbourhood.cpp
