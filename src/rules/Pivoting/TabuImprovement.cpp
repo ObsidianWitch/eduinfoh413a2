@@ -103,7 +103,7 @@ bool TabuImprovement::checkRepetitions(Permutation& newP) {
 
             // If the number of frequently encountered candidate solutions
             // exceeds MAX_CANDIDATE_FREQUENTLY_ENCOUNTERED, return true;
-            return frequentlyEncountered_.size() > MAX_CANDIDATE_FREQUENTLY_ENCOUNTERED;
+            return frequentlyEncountered_.size() > MAX_CANDIDATE_TRIGGER_ESCAPE;
         }
     }
     else {

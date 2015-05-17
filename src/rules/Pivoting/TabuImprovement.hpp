@@ -37,8 +37,8 @@ public:
     static const unsigned TT_ITERATIONS_WO_MODIFICATION = 5;
     
     /**
-     * Maximum occurrences number a candidate solutions must attain to be
-     * considered frequently encountered;
+     * Maximum occurrences a candidate solutions must attain to be considered
+     * frequently encountered;
      */
     static const unsigned MAX_OCCURRENCES_FREQUENTLY_ENCOUNTERED = 3;
     
@@ -48,7 +48,7 @@ public:
      *
      * @see escape()
      */
-    static const unsigned MAX_CANDIDATE_FREQUENTLY_ENCOUNTERED = 3;
+    static const unsigned MAX_CANDIDATE_TRIGGER_ESCAPE = 3;
     
     /**
      * Constant used in the escape mechanism to determine the maximum number of

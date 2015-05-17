@@ -18,4 +18,4 @@ struct GlobalArgsVND {
     void printHelp() const;
 };
 
-#endif // GLOBAL_ARGS_II_HPP
+#endif // GLOBAL_ARGS_VND_HPP
