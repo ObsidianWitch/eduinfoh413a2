@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     // Arguments handling
     GlobalArgsTabu g(argv[0]);
     
-    if (argc < 6) {
+    if (argc < 11) {
         std::cout << "Missing argument" << std::endl;
         g.printHelp();
         return EXIT_FAILURE;
