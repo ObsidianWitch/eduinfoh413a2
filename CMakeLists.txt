@@ -80,6 +80,8 @@ add_executable(tabu
     src/Debug.cpp
     src/TabuSearch/TabuSearch.cpp
     src/TabuSearch/TabuSearch.hpp
+    src/TabuSearch/GlobalArgsTabu.cpp
+    src/TabuSearch/GlobalArgsTabu.hpp
     src/rules/Neighbourhood/InsertNeighbourhood.cpp
     src/rules/Neighbourhood/InsertNeighbourhood.hpp
     src/rules/Neighbourhood/Neighbourhood.cpp

@@ -3,7 +3,9 @@
 #include "TabuImprovement.hpp"
 #include "Debug.hpp"
 
-TabuImprovement::TabuImprovement(const Instance& instance) :
+TabuImprovement::TabuImprovement(const Instance& instance,
+    const GlobalArgsTabu& g
+) :
     Improvement(instance),
     tabuQueue_(),
     tabuTenure_(1),
@@ -11,7 +13,11 @@ TabuImprovement::TabuImprovement(const Instance& instance) :
     frequentlyEncountered_(),
     ttIterationsNoModif(0),
     gen_(instance_.totalSum()),
-    eliteP_(instance.size())
+    eliteP_(instance.size()),
+    p_ttIterationsWoModification(g.ttIterationsWoModification),
+    p_maxOccurencesFrequentlyEncountered(g. maxOccurencesFrequentlyEncountered),
+    p_maxCandidateTriggerEscape(g.maxCandidateTriggerEscape),
+    p_randomStepsEscape(g.randomStepsEscape)
 {}
 
 /**
@@ -96,14 +102,14 @@ bool TabuImprovement::checkRepetitions(Permutation& newP) {
         // in the hash table.
         searchNewP->second++;
 
-        if (searchNewP->second > MAX_OCCURRENCES_FREQUENTLY_ENCOUNTERED) {
+        if (searchNewP->second > p_maxOccurencesFrequentlyEncountered) {
             // Insert newP in the set of frequently encountered Permutations (if
             // it is not already in there).
             frequentlyEncountered_.insert(newP.score());
 
             // If the number of frequently encountered candidate solutions
             // exceeds MAX_CANDIDATE_FREQUENTLY_ENCOUNTERED, return true;
-            return frequentlyEncountered_.size() > MAX_CANDIDATE_TRIGGER_ESCAPE;
+            return frequentlyEncountered_.size() > p_maxCandidateTriggerEscape;
         }
     }
     else {
@@ -120,7 +126,7 @@ bool TabuImprovement::checkRepetitions(Permutation& newP) {
     // largest the tabu list is, the less Permutations are allowed as
     // candidate solutions). So, if no change to the tabu tenure value has
     // happened for a sufficient number of iterations, decrease it.
-    if (ttIterationsNoModif > TT_ITERATIONS_WO_MODIFICATION) {
+    if (ttIterationsNoModif > p_ttIterationsWoModification) {
         if (tabuTenure_ > 1) {
             tabuTenure_ -= TT_DEC;
         }
@@ -147,7 +153,7 @@ Permutation TabuImprovement::escape(Permutation& p) {
     // Escape from the current search region
     Permutation newP = p;
 
-    std::uniform_int_distribution<> disRandSteps(2, MAX_RANDOM_STEPS_ESCAPE);
+    std::uniform_int_distribution<> disRandSteps(2, p_randomStepsEscape);
     std::uniform_int_distribution<> disIndex(0, instance_.size() - 1);
 
     unsigned nRandomSteps = disRandSteps(gen_);

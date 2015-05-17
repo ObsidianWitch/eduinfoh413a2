@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <random>
+
+#include "TabuSearch/GlobalArgsTabu.hpp"
 #include "Improvement.hpp"
 
 /**
@@ -29,37 +31,8 @@ public:
      * (minor influence)
      */
     static const unsigned TT_DEC = 1;
-    
-    /**
-     * Number of iterations during which the tabu tenure has not changed
-     * considered sufficient to decrease it.
-     */
-    static const unsigned TT_ITERATIONS_WO_MODIFICATION = 5;
-    
-    /**
-     * Maximum occurrences a candidate solutions must attain to be considered
-     * frequently encountered;
-     */
-    static const unsigned MAX_OCCURRENCES_FREQUENTLY_ENCOUNTERED = 3;
-    
-    /**
-     * Maximum number of candidate solutions frequently encountered. The escape
-     * mechanism is triggered if this number is exceeded.
-     *
-     * @see escape()
-     */
-    static const unsigned MAX_CANDIDATE_TRIGGER_ESCAPE = 3;
-    
-    /**
-     * Constant used in the escape mechanism to determine the maximum number of
-     * successive random changes which will be applied to the current
-     * Permutation.
-     *
-     * @see escape()
-     */
-    static const unsigned MAX_RANDOM_STEPS_ESCAPE = 10;
 
-    TabuImprovement(const Instance& instance);
+    TabuImprovement(const Instance& instance, const GlobalArgsTabu& g);
     
     Permutation improve(Permutation& p, Neighbourhood& n);
 
@@ -104,6 +77,39 @@ private:
      * Best Permutation found by the Tabu Search so far.
      */
     Permutation eliteP_;
+    
+    /* Begin tabu search parameters - these parameters must be fine tuned
+     * (by using irace for example).
+     */
+        /**
+         * Number of iterations during which the tabu tenure has not changed
+         * considered sufficient to decrease it.
+         */
+        unsigned p_ttIterationsWoModification;
+        
+        /**
+         * Maximum occurrences a candidate solutions must attain to be considered
+         * frequently encountered;
+         */
+        unsigned p_maxOccurencesFrequentlyEncountered;
+        
+        /**
+         * Maximum number of candidate solutions frequently encountered. The escape
+         * mechanism is triggered if this number is exceeded.
+         *
+         * @see escape()
+         */
+        unsigned p_maxCandidateTriggerEscape;
+        
+        /**
+         * Value used in the escape mechanism to determine the maximum number of
+         * successive random changes which will be applied to the current
+         * Permutation.
+         *
+         * @see escape()
+         */
+        unsigned p_randomStepsEscape;
+    /* End tabu search parameters */
 
     Permutation stepTabuSearch(Permutation& p, Neighbourhood& n);
     bool checkRepetitions(Permutation& newP);
