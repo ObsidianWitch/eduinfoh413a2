@@ -22,6 +22,7 @@ public:
 private:
     void checkArgs() const;
     void checkEmpty() const;
+    void checkMin() const;
     void checkFilePath() const;
 };
 

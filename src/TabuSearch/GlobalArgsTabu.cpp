@@ -42,6 +42,7 @@ void GlobalArgsTabu::retrieve(int argc, char *argv[]) {
 
 void GlobalArgsTabu::checkArgs() const {
     checkEmpty();
+    checkMin();
     checkFilePath();
 }
 
@@ -51,6 +52,20 @@ void GlobalArgsTabu::checkEmpty() const {
     if (empty) {
         std::cout << "Missing argument" << std::endl;
         printHelp();
+        exit(EXIT_FAILURE);
+    }
+}
+
+void GlobalArgsTabu::checkMin() const {
+    bool err = (
+        ttIterationsWoModification == 0 ||
+        maxOccurencesFrequentlyEncountered == 0 ||
+        maxCandidateTriggerEscape == 0 ||
+        randomStepsEscape < 2
+    );
+    
+    if (err) {
+        std::cout << "Invalid argument (check range)" << std::endl;
         exit(EXIT_FAILURE);
     }
 }
@@ -67,9 +82,9 @@ void GlobalArgsTabu::checkFilePath() const {
 
 void GlobalArgsTabu::printHelp() const {
     std::cout << "Usage:" << programName
-              << " -m <ttItereationsWoModification (unsigned)>" << std::endl
-              << "\t-o <maxOccurencesFrequentlyEncountered (unsigned)>" << std::endl
-              << "\t-t <maxCandidateTriggerEscape (unsigned)>" << std::endl
-              << "\t-r <randomStepsEscape (unsigned)>" << std::endl
+              << " -m <ttIterationsWoModification (unsigned >= 1)>" << std::endl
+              << "\t-o <maxOccurencesFrequentlyEncountered (unsigned >= 1)>" << std::endl
+              << "\t-t <maxCandidateTriggerEscape (unsigned >= 1)>" << std::endl
+              << "\t-r <randomStepsEscape (unsigned >= 2)>" << std::endl
               << "\t-f <instance_file>" << std::endl;
 }
