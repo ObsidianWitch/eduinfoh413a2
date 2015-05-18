@@ -2,7 +2,7 @@
 #define GLOBAL_ARGS_TABU_HPP
 
 /**
- * This class retrieve command line arguments used by the tabu search.
+ * This class retrieves command line arguments used by the tabu search.
  */
 class GlobalArgsTabu {
 public:

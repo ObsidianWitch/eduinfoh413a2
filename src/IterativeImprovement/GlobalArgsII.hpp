@@ -1,6 +1,10 @@
 #ifndef GLOBAL_ARGS_II_HPP
 #define GLOBAL_ARGS_II_HPP
 
+/**
+ * This class retrieves command line arguments used by the Iterative Improvment
+ * algorithm.
+ */
 struct GlobalArgsII {
     std::string programName;
     std::string init;
