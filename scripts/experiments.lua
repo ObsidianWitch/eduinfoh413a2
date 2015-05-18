@@ -1,5 +1,11 @@
 #!/usr/bin/lua
 
+--[[
+ Usage:
+ ./experiments.lua <mode (conf|run)> <startInstance> <endInstance> \
+    <m> <o> <t> <r>
+--]]
+
 -- Paths
 exe = "../out/tabu"
 outDirectory = "out"
@@ -31,18 +37,24 @@ end
 
 --[[
  Retrieve instances which will be used for the tabu search.
+ arg[2] is the start index of the instances which will be used, and arg[3]
+ is the end index.
 --]]
 function retrieveInstances()
     local instances = io.popen('ls ' .. instancesDirectory)
     local tInstances = {}
-    local nInstances = 0
+    local nInstances = arg[3] - arg[2] + 1
     
     for instance in instances:lines() do
-        nInstances = nInstances + 1
         table.insert(tInstances, instance)
     end
     
-    return tInstances, nInstances
+    local tFilteredInstances = {}
+    for i=arg[2], arg[3] do
+        table.insert(tFilteredInstances, tInstances[i])
+    end
+    
+    return tFilteredInstances, nInstances
 end
 instances, nInstances = retrieveInstances()
 
@@ -97,7 +109,18 @@ function computeTabuInstanceAllConfigurations(instance)
 end
 
 --[[
- Execute a tabu search on all instances and all configurations.
+ Execute a tabu search on all instances with a specific configuration.
+--]]
+function computeTabuAllSpecificConf(m, o, t, r)
+    local resultFile = io.open(outDirectory .. "/results", "a")
+    
+    for k, i in pairs(instances) do
+        computeTabuInstance(i, m, o, t, r, resultFile)
+    end
+end
+
+--[[
+Execute a tabu search on all instances and all configurations.
 --]]
 function computeTabuAll()
     for k, i in pairs(instances) do
@@ -133,4 +156,14 @@ end
 
 -- Main
 os.execute("mkdir -p " .. outDirectory)
-computeTabuAll()
+
+--[[
+ - conf mode runs the script with all the specified configurations (mRange,
+ oRange, tRange, rRange).
+ - run mode runs the script with a specific configuration.
+--]]
+if arg[1] == "conf" then
+    computeTabuAll()
+elseif arg[1] == "run" then
+    computeTabuAllSpecificConf(arg[4], arg[5], arg[6], arg[7])
+end
