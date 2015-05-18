@@ -5,6 +5,11 @@
 #include "rules/Neighbourhood/Neighbourhood.hpp"
 #include "rules/Pivoting/Improvement.hpp"
 
+/**
+ * The VariableNeighbourhoodDescent principle is to use increasingly larger
+ * neighbourhoods when local optima are encountered. Once a local optima is
+ * escaped, go back to a smaller neighbourhood.
+ */
 class VariableNeighbourhoodDescent {
 public:
     VariableNeighbourhoodDescent(Instance& instance,
