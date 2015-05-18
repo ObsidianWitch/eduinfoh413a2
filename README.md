@@ -29,4 +29,17 @@ Usage:./tabu <instance_file>
 
 # Scripts
 
-<!-- TODO -->
+## Experiments
+
+~~~
+Usage: ./experiments mode startInstance endInstance m o t r
+
+> ./experiments.lua conf 1 39
+> ./experiments.lua run 1 39 4 2 4 4
+~~~
+
+## Parallel
+
+~~~
+> ./parallel_experiments.sh
+~~~
