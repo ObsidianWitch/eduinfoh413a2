@@ -12,10 +12,10 @@ outDirectory = "out"
 instancesDirectory = "instances"
 
 -- Parameters
-mRange = {4,4} -- FIXME
-oRange = {2,2} -- FIXME
-tRange = {4,4} -- FIXME
-rRange = {4,4} -- FIXME
+mRange = {2,5}
+oRange = {2,5}
+tRange = {2,5}
+rRange = {2,5}
 
 nParameters = 4
 nConfigurations = (mRange[2] - mRange[1]  + 1)
@@ -65,7 +65,11 @@ scriptProgression = 0
 function scriptProgress()
     scriptProgression = scriptProgression + 1
     
-    local total = nInstances * nConfigurations
+    local total = nInstances
+    if arg[1] == "conf" then
+        nInstances = nInstances * nConfigurations
+    end
+
     print("[" .. scriptProgression .. "/" .. total .. "]")
 end
 
@@ -85,7 +89,7 @@ function computeTabuInstance(instance, m, o, t, r, resultFile)
     print(tabuCmd .. "\n")
     
     local tabuOut = io.popen(tabuCmd)
-    extractWriteData(tabuOut, {m, o, t, r}, resultFile)
+    extractWriteData(instance, tabuOut, {m, o, t, r}, resultFile)
 end
 
 --[[
@@ -132,7 +136,7 @@ end
  Extract data from the output of the tabu search program, and write it to the
  instance's result file.
 --]]
-function extractWriteData(tabuOut, parameters, resultFile)
+function extractWriteData(instanceName, tabuOut, parameters, resultFile)
     local finalScore, bestKnownScore, delta
 
     for line in tabuOut:lines() do
@@ -146,6 +150,8 @@ function extractWriteData(tabuOut, parameters, resultFile)
     end
 
     delta = 100 * (bestKnownScore - finalScore)/bestKnownScore
+    
+    resultFile:write (instanceName .. " ")
     
     for k,p in pairs(parameters) do
         resultFile:write(p .. " ")
