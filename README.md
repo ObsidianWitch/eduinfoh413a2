@@ -6,7 +6,7 @@ Two Stochastic Local Search algorithms were implemented for the Linear Ordering
 Problem.
 
 * Tabu Search
-* ???
+* ??? (not implemented yet)
 
 ## Compilation
 
