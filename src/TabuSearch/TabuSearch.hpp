@@ -21,7 +21,7 @@ public:
      * gives us 293.959 s.
      * FIXME multiplied by 100
      */
-    static const int TERMINATION_150_X10 = 29;
+    static const int TERMINATION_150_X10 = 294;
     
     /**
      * For an instance of size 250, the termination criterion is the average

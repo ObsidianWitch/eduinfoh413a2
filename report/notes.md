@@ -43,10 +43,6 @@ while (!termination_criterion) {
 dynamic tabu search: p.482
 The Reactive Tabu Search, ROBERTO BATTITI, GIAMPIETRO TECCHIOLLI
 
-## Dynasearch
-
-<!-- TODO -->
-
 # Hybrid
 
 ## Iterated Local Search
